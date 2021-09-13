@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { authStateListener } from "../../app/firebase/auth";
-import { getUserProfile } from "../../app/firebase/firestore/firestoreService";
+import { authStateListener } from "../../app/firebase/authService";
+import { getUserProfile } from "../../app/firebase/firestoreService";
+import { hideSpinner, showSpinner } from "../home/homeSlice";
 
-const initialState = { data: { isTeacher: false }, hasProfileData: null };
+const initialState = {
+  data: { isTeacher: false },
+  hasProfileData: false,
+};
 
 const profileSlice = createSlice({
   name: "profile",
@@ -20,16 +24,29 @@ const profileSlice = createSlice({
   },
 });
 
-export const { profileLoaded, profileCleared } = profileSlice.actions;
+export const {
+  profileLoaded,
+  profileCleared,
+  loadingProfile,
+  loadingProfileFailed,
+} = profileSlice.actions;
 export default profileSlice.reducer;
 
 export function getProfileData() {
   return function (dispatch) {
     authStateListener(async (userInfo) => {
+      console.log(`profile ${userInfo}`);
       if (userInfo) {
-        const profile = await getUserProfile(userInfo.uid);
-        if(profile)
-          dispatch(profileLoaded(profile));
+        try {
+          dispatch(showSpinner());
+          const profile = await getUserProfile(userInfo.uid);
+          if (profile) {
+            dispatch(profileLoaded(profile));
+          }
+          dispatch(hideSpinner());
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         dispatch(profileCleared());
       }
@@ -38,5 +55,5 @@ export function getProfileData() {
 }
 
 export const selectHasProfileData = (store) => store.profile.hasProfileData;
+export const selectIsProfileDataLoading = (store) => store.profile.isLoading;
 export const selectProfileData = (store) => store.profile.data;
-

@@ -1,6 +1,10 @@
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
-import { AiOutlineDesktop, AiOutlinePieChart, AiOutlineTeam, AiOutlineUser, AiTwotoneFileText } from "react-icons/ai";
+import {
+  AiOutlineDesktop,
+  AiOutlineTeam,
+  AiTwotoneFileText,
+} from "react-icons/ai";
 
 function SideBar() {
   const { Sider } = Layout;
@@ -9,27 +13,27 @@ function SideBar() {
   const onCollapse = (collapsed) => setCollapsed(collapsed);
   return (
     <Sider
-      style={{ marginTop:"50px" }}
+      style={{ marginTop: "50px" }}
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}
     >
       <Menu theme="dark" mode="inline">
-        <Menu.Item key="1">Option 1</Menu.Item>
+        <Menu.Item key="1">Current Tasks</Menu.Item>
         <Menu.Item key="2" icon={<AiOutlineDesktop />}>
-          Option 2
+          Completed Tasks
         </Menu.Item>
-        <SubMenu key="sub1" title="User" icon={<AiOutlineTeam/>}>
-          <Menu.Item key="3">Tom</Menu.Item>
-          <Menu.Item key="4">Bill</Menu.Item>
-          <Menu.Item key="5">Alex</Menu.Item>
+        <SubMenu key="sub1" title="Study Material" icon={<AiOutlineTeam />}>
+          <Menu.Item key="3">Java</Menu.Item>
+          <Menu.Item key="4">Os</Menu.Item>
+          <Menu.Item key="5">DBMS</Menu.Item>
         </SubMenu>
-        <SubMenu key="sub2" title="Team">
-          <Menu.Item key="6">Team 1</Menu.Item>
-          <Menu.Item key="8">Team 2</Menu.Item>
+        <SubMenu key="sub2" title="Results">
+          <Menu.Item key="6">Java</Menu.Item>
+          <Menu.Item key="8">os</Menu.Item>
         </SubMenu>
         <Menu.Item key="9" icon={<AiTwotoneFileText />}>
-          Files
+          Assignments
         </Menu.Item>
       </Menu>
     </Sider>

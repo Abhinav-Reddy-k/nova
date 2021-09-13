@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import {
   sendEmailVerification,
   signUpWithEmail,
-} from "../../app/firebase/auth";
+} from "../../app/firebase/authService";
 import ReistrationSteps from "./ReistrationSteps";
 
 const formItemLayout = {

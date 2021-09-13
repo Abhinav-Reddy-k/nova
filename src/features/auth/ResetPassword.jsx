@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, message, Row } from "antd";
 import React from "react";
 import { AiOutlineUser } from "react-icons/ai";
 
-import { sendPasswordReset } from "../../app/firebase/auth";
+import { sendPasswordReset } from "../../app/firebase/authService";
 
 function ResetPassword() {
   const onFinish = async (values) => {

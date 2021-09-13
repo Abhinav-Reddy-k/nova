@@ -1,0 +1,10 @@
+Exception in thread "main" com.google.cloud.datastore.core.exception.DatastoreException: Failed to parse overall export metadata file
+	at com.google.cloud.datastore.emulator.impl.ExportImportUtil.parseOverallMetadataFile(ExportImportUtil.java:229)
+	at com.google.cloud.datastore.emulator.impl.ExportImportUtil.fetchEntities(ExportImportUtil.java:56)
+	at com.google.cloud.datastore.emulator.firestore.CloudFirestore.main(CloudFirestore.java:90)
+Caused by: java.io.FileNotFoundException: /home/abhinav/VSProjects/nova/local-data/firestore_export/firestore_export.overall_export_metadata (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:211)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:153)
+	at com.google.cloud.datastore.emulator.impl.ExportImportUtil.parseOverallMetadataFile(ExportImportUtil.java:219)
+	... 2 more

@@ -1,9 +1,27 @@
-import { Button, Checkbox, Col, Form, Input, message, Row, Space, Typography } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  message,
+  Row,
+  Space,
+  Typography,
+} from "antd";
 import React from "react";
-import { AiFillGithub, AiOutlineGoogle, AiOutlineLock, AiOutlineUser } from "react-icons/ai";
+import {
+  AiFillGithub,
+  AiOutlineGoogle,
+  AiOutlineLock,
+  AiOutlineUser,
+} from "react-icons/ai";
 import { Link, useHistory } from "react-router-dom";
 
-import { signInWithEmailPassword, socialLogin } from "./../../app/firebase/auth";
+import {
+  signInWithEmailPassword,
+  socialLogin,
+} from "../../app/firebase/authService";
 
 import "./loginStyles.css";
 
@@ -25,7 +43,9 @@ function Login() {
   return (
     <>
       <div className="bg">
-        <h2 className="flux" style={{margin:"60px 0 0 60px"}}>NOVA</h2>
+        <h2 className="flux" style={{ margin: "60px 0 0 60px" }}>
+          NOVA
+        </h2>
 
         <div className="login-box">
           <h2 className="login-heading">Login</h2>

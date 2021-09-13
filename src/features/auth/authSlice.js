@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { authStateListener } from "../../app/firebase/auth";
+import { authStateListener } from "../../app/firebase/authService";
 
 const initialState = {
   currentUser: {
@@ -77,6 +77,5 @@ export const selectUid = (state) => state.auth.currentUser.uid;
 
 export const selectDisplayName = (state) => state.auth.currentUser.displayName;
 export const selectEmail = (state) => state.auth.currentUser.email;
-
 
 export const selectCurrentUser = (store) => store.auth.currentUser;

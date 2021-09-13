@@ -1,14 +1,29 @@
-import { Button, Layout } from "antd";
+import { Button, Layout, Typography } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 
 import SideBar from "../nav/SideBar";
 import TopAppBar from "../nav/TopAppBar";
+import { useDispatch, useSelector } from "react-redux";
+import { selectDisplayName } from "../auth/authSlice";
+import { useEffect } from "react";
+import { tasksLoaded } from "./homeSlice";
+import { studentTasksListener } from "../../app/firebase/firestoreService";
 
 function Home() {
-
-
   const { Header, Sider, Content, Footer } = Layout;
+  const username = useSelector(selectDisplayName);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    studentTasksListener(1, "cse", "A").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let tasks = [];
+        let docData = doc.data();
+        tasks.push({ ...docData, time: docData.time.toDate().toString() });
+        dispatch(tasksLoaded(tasks));
+      });
+    });
+  }, [username]);
 
   return (
     <>
@@ -16,6 +31,7 @@ function Home() {
       <Layout hasSider={true} style={{ minHeight: "100vh" }}>
         <SideBar />
         <Content style={{ marginTop: "50px" }}>
+          <Typography.Title>Welcome {username}</Typography.Title>
           <Link to={"/profile"}>
             <Button>profile</Button>
           </Link>
@@ -29,19 +45,3 @@ function Home() {
 }
 
 export default Home;
-
-// <Link to={"/resetPassword"}>
-//         <Button>Reset Password</Button>
-//       </Link>
-//       <Link to={"/login"}>
-//         <Button>Login</Button>
-//       </Link>
-//       <Link to={"/register"}>
-//         <Button>Register</Button>
-//       </Link>
-//       <Link to={"/verifyEmail"}>
-//         <Button>email verify</Button>
-//       </Link>
-{
-  /* <Button onClick={onSignOut}>Sign out</Button> */
-}

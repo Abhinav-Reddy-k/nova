@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/functions";
+import "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB7caZkaw4cS9wUIY8emP9oly1EuYD6Li4",
@@ -13,5 +15,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+firebase.functions().useEmulator("localhost", 5001);
 
 export default firebase;

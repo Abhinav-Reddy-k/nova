@@ -1,11 +1,21 @@
-import { Button, Col, Form, Input, InputNumber, message, Row, Select, Typography } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Row,
+  Select,
+  Typography,
+} from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
+import { setStudentProfileData } from "../../app/firebase/firestoreService";
 
-import { setStudentProfileData } from "../../app/firebase/firestore/studentsCollection";
 import { selectCurrentUser } from "../auth/authSlice";
 
-function StudentProfile() {
+function StudentProfileForm() {
   const { displayName, uid, photoURL, email } = useSelector(selectCurrentUser);
   const onFinish = async (val) => {
     const studentProfile = { ...val, uid, displayName, photoURL, email };
@@ -125,4 +135,4 @@ function StudentProfile() {
   );
 }
 
-export default StudentProfile;
+export default StudentProfileForm;
