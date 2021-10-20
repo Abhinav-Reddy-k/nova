@@ -1,10 +1,14 @@
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   AiOutlineDesktop,
   AiOutlineTeam,
   AiTwotoneFileText,
 } from "react-icons/ai";
+
+import { SiGoogleclassroom } from "react-icons/si";
 
 function SideBar() {
   const { Sider } = Layout;
@@ -19,7 +23,11 @@ function SideBar() {
       onCollapse={onCollapse}
     >
       <Menu theme="dark" mode="inline">
-        <Menu.Item key="1">Current Tasks</Menu.Item>
+        <Menu.Item key="1" icon={<SiGoogleclassroom />}>
+          <Link to="/home/onlineClasses" replace>
+            Online Classes
+          </Link>
+        </Menu.Item>
         <Menu.Item key="2" icon={<AiOutlineDesktop />}>
           Completed Tasks
         </Menu.Item>

@@ -1,14 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  message,
-  Row,
-  Space,
-  Typography,
-} from "antd";
+import { Button, Form, Input, message, Space } from "antd";
 import React from "react";
 import {
   AiFillGithub,
@@ -17,12 +7,10 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { Link, useHistory } from "react-router-dom";
-
 import {
   signInWithEmailPassword,
   socialLogin,
 } from "../../app/firebase/authService";
-
 import "./loginStyles.css";
 
 function Login() {

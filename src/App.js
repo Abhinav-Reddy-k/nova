@@ -16,7 +16,6 @@ import Register from "./features/registration/RegisterEmail";
 import VerifyEmail from "./features/registration/VerifyEmail";
 
 import "./App.css";
-import ProfileData from "./features/Profile/ProfileData";
 import LoadingSpinner from "./app/common/LoadingSpinner";
 import { selectIsLoading } from "./features/home/homeSlice";
 
@@ -43,7 +42,6 @@ function App() {
           path={"/home"}
           component={Home}
           condition={isAuthenticated && isEmailVerified && hasProfileData}
-          exact
           redirectUrl={
             !isAuthenticated
               ? "/login"
@@ -79,14 +77,6 @@ function App() {
 
         <Route path="/resetPassword">
           <ResetPassword />
-        </Route>
-
-        <Route path="/prac">
-          <Profile />
-        </Route>
-
-        <Route path="/profile">
-          <ProfileData />
         </Route>
 
         <Redirect to={"/home"} />

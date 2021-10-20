@@ -1,11 +1,7 @@
 import { Button, Col, Form, Input, message, Row } from "antd";
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
 
-import {
-  sendEmailVerification,
-  signUpWithEmail,
-} from "../../app/firebase/authService";
+import { signUpWithEmail } from "../../app/firebase/authService";
 import ReistrationSteps from "./ReistrationSteps";
 
 const formItemLayout = {
@@ -41,8 +37,6 @@ const tailFormItemLayout = {
 
 function Register() {
   const [form] = Form.useForm();
-
-  const reactHistory = useHistory();
 
   const onFinish = async (values) => {
     console.log("Received values of form: ", values);
