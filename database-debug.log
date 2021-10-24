@@ -3,12 +3,12 @@ WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (fil
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
-16:45:38.823 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-16:45:42.787 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
-19:43:33.691 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-19:43:33.826 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: nova-4bfb4-default-rtdb, nova-4bfb4
-19:43:33.872 [NamespaceSystem-akka.actor.default-dispatcher-13] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for nova-4bfb4-default-rtdb
-19:43:33.872 [NamespaceSystem-akka.actor.default-dispatcher-9] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for nova-4bfb4
-19:43:33.882 [NamespaceSystem-akka.actor.default-dispatcher-13] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for nova-4bfb4-default-rtdb
-19:43:33.882 [NamespaceSystem-akka.actor.default-dispatcher-9] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for nova-4bfb4
-19:43:33.924 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+14:28:31.416 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+14:28:35.910 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+15:28:33.972 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+15:28:34.153 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: nova-4bfb4-default-rtdb, nova-4bfb4
+15:28:34.211 [NamespaceSystem-akka.actor.default-dispatcher-9] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for nova-4bfb4
+15:28:34.211 [NamespaceSystem-akka.actor.default-dispatcher-10] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for nova-4bfb4-default-rtdb
+15:28:34.223 [NamespaceSystem-akka.actor.default-dispatcher-9] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for nova-4bfb4
+15:28:34.223 [NamespaceSystem-akka.actor.default-dispatcher-10] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for nova-4bfb4-default-rtdb
+15:28:34.264 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

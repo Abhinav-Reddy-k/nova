@@ -42,7 +42,7 @@
     }
   },
   "hosting": {
-    "site":"nova-student",
+    "site": "novaonline",
     "public": "build",
     "ignore": [
       "firebase.json",

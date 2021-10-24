@@ -20,7 +20,15 @@ function ClassesCardGrid() {
                   width: 260,
                   margin: "8px",
                 }}
-                cover={<img alt="example" src={cls.teacherPhoto} />}
+                cover={
+                  <img
+                    style={{ objectFit: "cover" }}
+                    alt="example"
+                    height="250px"
+                    width="200px"
+                    src={cls.teacherPhoto}
+                  />
+                }
                 actions={[
                   <Button key={index}>
                     <a
@@ -34,13 +42,16 @@ function ClassesCardGrid() {
                 ]}
               >
                 <Meta
-                  title={`${cls.subject} (${cls.section})`}
-                  description={cls.description}
+                  title={cls.description}
+                  description={`${cls.subject} (${cls.section})`}
                 />
                 <br />
                 <pre>Started At : {start_time[4]}</pre>
                 <pre>{`On ${start_time[2]} ${start_time[1]}`}</pre>
-                <pre> --Taught by {cls.teacher}</pre>
+                <pre>
+                  <br />
+                  {`  -- ${cls.teacher}`}
+                </pre>
               </Card>
             </Col>
           );

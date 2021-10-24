@@ -11,6 +11,10 @@ import { tasksLoaded } from "./homeSlice";
 import { studentTasksListener } from "../../app/firebase/firestoreService";
 import OnlineClass from "../onlineClass/OnlineClass";
 import ProfileData from "../Profile/ProfileData";
+import { Redirect } from "react-router";
+import CodeEditor from "../ide/CodeEditor";
+import CodingTasks from "../ide/CodingTasks";
+import CodeAttempt from "../ide/CodeAttempt";
 
 function Home() {
   const { Header, Sider, Content, Footer } = Layout;
@@ -26,7 +30,6 @@ function Home() {
       });
     });
   }, [username]);
-  const { path } = useRouteMatch();
 
   return (
     <>
@@ -35,17 +38,27 @@ function Home() {
         <SideBar />
         <Content style={{ marginTop: "50px" }}>
           <Switch>
-            <Route exact path={`${path}`}>
+            <Route exact path="/home">
               <>
                 <Typography.Title>Welcome {username}</Typography.Title>
               </>
             </Route>
-            <Route path={`${path}/onlineClasses`}>
+            <Route exact path="/home/onlineClasses">
               <OnlineClass />
             </Route>
-            <Route path={`/home/profile`}>
+            <Route exact path="/home/profile">
               <ProfileData />
             </Route>
+            <Route exact path="/home/ide">
+              <CodeEditor />
+            </Route>
+            <Route exact path="/home/test">
+              <CodingTasks />
+            </Route>
+            <Route path="/home/test/attempt/:title">
+              <CodeAttempt />
+            </Route>
+            <Redirect to="/home" />
           </Switch>
         </Content>
       </Layout>
