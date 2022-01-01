@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
+  AiFillCalculator,
   AiOutlineCodeSandbox,
   AiOutlineDesktop,
   AiOutlineTeam,
@@ -19,12 +20,23 @@ function SideBar() {
   const onCollapse = (collapsed) => setCollapsed(collapsed);
   return (
     <Sider
-      style={{ marginTop: "50px" }}
+      style={{
+        overflow: "auto",
+        height: "100vh",
+        position: "sticky",
+        top: 0,
+        left: 0,
+      }}
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}
     >
       <Menu theme="dark" mode="inline">
+        <Item key="logo">
+          <Link to="/home" replace>
+            NOVA
+          </Link>
+        </Item>
         <Item key="onlineClasses" icon={<SiGoogleclassroom />}>
           <Link to="/home/onlineClasses">Online Classes</Link>
         </Item>
@@ -41,7 +53,7 @@ function SideBar() {
           <Menu.Item key="4">Os</Menu.Item>
           <Menu.Item key="5">DBMS</Menu.Item>
         </SubMenu>
-        <SubMenu key="sub2" title="Results">
+        <SubMenu key="sub2" title="Results" icon={AiFillCalculator}>
           <Menu.Item key="6">Java</Menu.Item>
           <Menu.Item key="8">os</Menu.Item>
         </SubMenu>

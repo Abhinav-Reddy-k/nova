@@ -9,16 +9,12 @@ function TopAppBar() {
     <Menu
       mode="horizontal"
       style={{
-        position: "fixed",
-        width: "100%",
+        position: "sticky",
         zIndex: 1,
+        width: "100%",
         display: "block",
       }}
-      defaultSelectedKeys={["logo"]}
     >
-      <Menu.Item key="logo">
-        <Link to="/home">NOVA</Link>
-      </Menu.Item>
       <Menu.Item key="logout" onClick={signOut} style={{ float: "right" }}>
         Logout
       </Menu.Item>
