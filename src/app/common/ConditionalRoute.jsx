@@ -1,18 +1,30 @@
-/* eslint-disable react/prop-types */
-import React from "react";
-import { Redirect, Route } from "react-router";
+// import React from "react";
+// import { Navigate, Route } from "react-router-dom";
 
-function ConditionalRoute({
-  component: Component,
-  redirectUrl,
-  condition,
-  ...rest
-}) {
-  return (
-    <Route {...rest} redirectUrl>
-      {!condition ? <Redirect to={redirectUrl} /> : <Component {...rest} />}
-    </Route>
-  );
+// function conditionalRoute(Component, redirectUrl, condition, path) {
+//   return (
+//     <>
+//       {!condition ? (
+//         <Route path={path} element={<Navigate to={redirectUrl} />}></Route>
+//       ) : (
+//         <Route path={path} element={<Component />}></Route>
+//       )}
+//     </>
+//   );
+// }
+
+// export default conditionalRoute;
+import propTypes from "prop-types";
+import React from "react";
+import { Navigate, Outlet } from "react-router";
+
+function ConditionalRoute({ redirectUrl, condition }) {
+  return <>{!condition ? <Navigate to={redirectUrl} /> : <Outlet />}</>;
 }
 
 export default ConditionalRoute;
+
+ConditionalRoute.propTypes = {
+  redirectUrl: propTypes.string.isRequired,
+  condition: propTypes.bool.isRequired,
+};

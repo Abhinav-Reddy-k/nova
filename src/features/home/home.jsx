@@ -1,6 +1,6 @@
-import { Button, Layout, Typography } from "antd";
-import React, { lazy, Suspense } from "react";
-import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { Layout } from "antd";
+import React, { Suspense } from "react";
+import { Outlet } from "react-router-dom";
 
 import SideBar from "../nav/SideBar";
 import TopAppBar from "../nav/TopAppBar";
@@ -9,13 +9,7 @@ import { selectDisplayName } from "../auth/authSlice";
 import { useEffect } from "react";
 import { tasksLoaded } from "./homeSlice";
 import { studentTasksListener } from "../../app/firebase/firestoreService";
-import { Redirect } from "react-router";
 
-const OnlineClass = lazy(() => import("../onlineClass/OnlineClass"));
-const ProfileData = lazy(() => import("../Profile/ProfileData"));
-const CodeEditor = lazy(() => import("../ide/CodeEditor"));
-const CodingTasks = lazy(() => import("../ide/CodingTasks"));
-const CodeAttempt = lazy(() => import("../ide/CodeAttempt"));
 import LoadingSpinner from "../../app/common/LoadingSpinner";
 import ErrorBoundary from "../../app/common/ErrorBoundary";
 
@@ -57,32 +51,15 @@ function Home() {
           >
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <Switch>
-                  <Route exact path="/home">
-                    <>
-                      <Typography.Title>Welcome {username}</Typography.Title>
-                    </>
-                  </Route>
-                  <Route exact path="/home/onlineClasses">
-                    <OnlineClass />
-                  </Route>
-                  <Route exact path="/home/profile">
-                    <ProfileData />
-                  </Route>
-                  <Route exact path="/home/ide">
-                    <CodeEditor />
-                  </Route>
-                  <Route exact path="/home/test">
-                    <CodingTasks />
-                  </Route>
-                  <Route path="/home/test/attempt/:title">
-                    <CodeAttempt />
-                  </Route>
-                  <Redirect to="/home" />
-                </Switch>
+                <Outlet />
               </Suspense>
             </ErrorBoundary>
           </Content>
+          <Footer
+            style={{ textAlign: "center", height: "20px", padding: "0px" }}
+          >
+            Nova ©2021 Created by Abhinav Reddy
+          </Footer>
         </Layout>
       </Layout>
     </>
