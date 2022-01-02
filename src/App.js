@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Routes, Route } from "react-router-dom";
 
-import conditionalRoute from "./app/common/ConditionalRoute";
+import ConditionalRoute from "./app/common/ConditionalRoute";
 import {
   selectEmailVerified,
   selectIsAutheticated,
@@ -23,6 +23,12 @@ const Profile = lazy(() =>
 );
 const ResetPassword = lazy(() => import("./features/auth/ResetPassword"));
 
+const OnlineClass = lazy(() => import("./features/onlineClass/OnlineClass"));
+const ProfileData = lazy(() => import("./features/Profile/ProfileData"));
+const CodeEditor = lazy(() => import("./features/ide/CodeEditor"));
+const CodingTasks = lazy(() => import("./features/ide/CodingTasks"));
+const CodeAttempt = lazy(() => import("./features/ide/CodeAttempt"));
+
 function App() {
   const isAuthenticated = useSelector(selectIsAutheticated);
   const isEmailVerified = useSelector(selectEmailVerified);
@@ -36,39 +42,74 @@ function App() {
       <ErrorBoundary>
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
-            {conditionalRoute(Login, "/home", !isAuthenticated, "/login")}
+            <Route
+              element={
+                <ConditionalRoute
+                  condition={!isAuthenticated}
+                  redirectUrl="/home"
+                />
+              }
+            >
+              <Route path="/login" element={<Login />} />
+              <Route path="/registration/register" element={<Register />} />
+            </Route>
 
-            {conditionalRoute(
-              Home,
-              !isAuthenticated
-                ? "/login"
-                : !isEmailVerified
-                ? "/registration/verifyEmail"
-                : "/registration/profile",
-              isAuthenticated && isEmailVerified && hasProfileData,
-              "/home/*"
-            )}
+            <Route
+              element={
+                <ConditionalRoute
+                  condition={
+                    isAuthenticated && isEmailVerified && hasProfileData
+                  }
+                  redirectUrl={
+                    !isAuthenticated
+                      ? "/login"
+                      : !isEmailVerified
+                      ? "/registration/verifyEmail"
+                      : "/registration/profile"
+                  }
+                />
+              }
+            >
+              <Route path="/home/*" element={<Home />}>
+                <Route path="" element={<h1>Welcome</h1>}></Route>
+                <Route path="onlineClasses" element={<OnlineClass />}></Route>
+                <Route path="profile" element={<ProfileData />}></Route>
+                <Route path="ide" element={<CodeEditor />}></Route>
+                <Route path="test" element={<CodingTasks />}></Route>
+                <Route
+                  path="test/attempt/:title"
+                  element={<CodeAttempt />}
+                ></Route>
+                <Route path="*" element={<Navigate to="/home" />}></Route>
+              </Route>
+            </Route>
 
-            {conditionalRoute(
-              Register,
-              "/home",
-              !isAuthenticated,
-              "/registration/register"
-            )}
+            <Route
+              element={
+                <ConditionalRoute
+                  condition={isAuthenticated && !isEmailVerified}
+                  redirectUrl={isEmailVerified ? "/home" : "/login"}
+                />
+              }
+            >
+              <Route
+                path="/registration/verifyEmail"
+                element={<VerifyEmail />}
+              />
+            </Route>
 
-            {conditionalRoute(
-              VerifyEmail,
-              isEmailVerified ? "/home" : "/login",
-              isAuthenticated && !isEmailVerified,
-              "/registration/verifyEmail"
-            )}
-
-            {conditionalRoute(
-              Profile,
-              "/home",
-              isAuthenticated && isEmailVerified && !hasProfileData,
-              "/registration/profile"
-            )}
+            <Route
+              element={
+                <ConditionalRoute
+                  condition={
+                    isAuthenticated && isEmailVerified && !hasProfileData
+                  }
+                  redirectUrl="/home"
+                />
+              }
+            >
+              <Route path="/registration/profile" element={<Profile />} />
+            </Route>
 
             <Route path="/resetPassword" element={<ResetPassword />}></Route>
             <Route path="/" element={<Navigate to="/home" />} />
