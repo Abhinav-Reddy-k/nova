@@ -17,6 +17,7 @@ const CodeEditor = lazy(() => import("../ide/CodeEditor"));
 const CodingTasks = lazy(() => import("../ide/CodingTasks"));
 const CodeAttempt = lazy(() => import("../ide/CodeAttempt"));
 import LoadingSpinner from "../../app/common/LoadingSpinner";
+import ErrorBoundary from "../../app/common/ErrorBoundary";
 
 function Home() {
   const { Header, Sider, Content, Footer } = Layout;
@@ -54,31 +55,33 @@ function Home() {
               overflow: "scroll",
             }}
           >
-            <Suspense fallback={<LoadingSpinner />}>
-              <Switch>
-                <Route exact path="/home">
-                  <>
-                    <Typography.Title>Welcome {username}</Typography.Title>
-                  </>
-                </Route>
-                <Route exact path="/home/onlineClasses">
-                  <OnlineClass />
-                </Route>
-                <Route exact path="/home/profile">
-                  <ProfileData />
-                </Route>
-                <Route exact path="/home/ide">
-                  <CodeEditor />
-                </Route>
-                <Route exact path="/home/test">
-                  <CodingTasks />
-                </Route>
-                <Route path="/home/test/attempt/:title">
-                  <CodeAttempt />
-                </Route>
-                <Redirect to="/home" />
-              </Switch>
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Switch>
+                  <Route exact path="/home">
+                    <>
+                      <Typography.Title>Welcome {username}</Typography.Title>
+                    </>
+                  </Route>
+                  <Route exact path="/home/onlineClasses">
+                    <OnlineClass />
+                  </Route>
+                  <Route exact path="/home/profile">
+                    <ProfileData />
+                  </Route>
+                  <Route exact path="/home/ide">
+                    <CodeEditor />
+                  </Route>
+                  <Route exact path="/home/test">
+                    <CodingTasks />
+                  </Route>
+                  <Route path="/home/test/attempt/:title">
+                    <CodeAttempt />
+                  </Route>
+                  <Redirect to="/home" />
+                </Switch>
+              </Suspense>
+            </ErrorBoundary>
           </Content>
         </Layout>
       </Layout>

@@ -12,6 +12,7 @@ import { selectHasProfileData } from "./features/Profile/profileSlice";
 import "./App.css";
 import LoadingSpinner from "./app/common/LoadingSpinner";
 import { selectIsLoading } from "./features/home/homeSlice";
+import ErrorBoundary from "./app/common/ErrorBoundary";
 
 const Login = lazy(() => import("./features/auth/Login"));
 const Home = lazy(() => import("./features/home/home"));
@@ -32,60 +33,62 @@ function App() {
 
   return (
     <>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Switch>
-          <ConditionalRoute
-            component={Login}
-            path={"/login"}
-            exact
-            condition={!isAuthenticated}
-            redirectUrl="/home"
-          />
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Switch>
+            <ConditionalRoute
+              component={Login}
+              path={"/login"}
+              exact
+              condition={!isAuthenticated}
+              redirectUrl="/home"
+            />
 
-          <ConditionalRoute
-            path={"/home"}
-            component={Home}
-            condition={isAuthenticated && isEmailVerified && hasProfileData}
-            redirectUrl={
-              !isAuthenticated
-                ? "/login"
-                : !isEmailVerified
-                ? "/registration/verifyEmail"
-                : "/registration/profile"
-            }
-          />
+            <ConditionalRoute
+              path={"/home"}
+              component={Home}
+              condition={isAuthenticated && isEmailVerified && hasProfileData}
+              redirectUrl={
+                !isAuthenticated
+                  ? "/login"
+                  : !isEmailVerified
+                  ? "/registration/verifyEmail"
+                  : "/registration/profile"
+              }
+            />
 
-          <ConditionalRoute
-            path={"/registration/register"}
-            component={Register}
-            condition={!isAuthenticated}
-            exact
-            redirectUrl={"/home"}
-          />
+            <ConditionalRoute
+              path={"/registration/register"}
+              component={Register}
+              condition={!isAuthenticated}
+              exact
+              redirectUrl={"/home"}
+            />
 
-          <ConditionalRoute
-            path={"/registration/verifyEmail"}
-            component={VerifyEmail}
-            condition={isAuthenticated && !isEmailVerified}
-            exact
-            redirectUrl={isEmailVerified ? "/home" : "/login"}
-          />
+            <ConditionalRoute
+              path={"/registration/verifyEmail"}
+              component={VerifyEmail}
+              condition={isAuthenticated && !isEmailVerified}
+              exact
+              redirectUrl={isEmailVerified ? "/home" : "/login"}
+            />
 
-          <ConditionalRoute
-            path={"/registration/profile"}
-            component={Profile}
-            condition={isAuthenticated && isEmailVerified && !hasProfileData}
-            exact
-            redirectUrl={"/home"}
-          />
+            <ConditionalRoute
+              path={"/registration/profile"}
+              component={Profile}
+              condition={isAuthenticated && isEmailVerified && !hasProfileData}
+              exact
+              redirectUrl={"/home"}
+            />
 
-          <Route path="/resetPassword">
-            <ResetPassword />
-          </Route>
+            <Route path="/resetPassword">
+              <ResetPassword />
+            </Route>
 
-          <Redirect to={"/home"} />
-        </Switch>
-      </Suspense>
+            <Redirect to={"/home"} />
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 }

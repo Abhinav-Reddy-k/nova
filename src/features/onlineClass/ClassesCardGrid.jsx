@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentClasses } from "./classesSlice";
 import { Button, Card, Col, Row } from "antd";
+import Nodata from "../../app/common/Nodata";
 
 function ClassesCardGrid() {
   const { Meta } = Card;
@@ -9,6 +10,8 @@ function ClassesCardGrid() {
   return (
     <>
       <Row justify="center">
+        {currentClasses.length === 0 && <Nodata />}
+
         {currentClasses.map((cls, index) => {
           let start_time = cls.startTime.split(" ");
           return (

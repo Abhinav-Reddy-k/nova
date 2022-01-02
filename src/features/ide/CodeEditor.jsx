@@ -43,7 +43,7 @@ const CodeEditor = ({ testCases }) => {
   const [isLoading, setLoading] = useState(false);
   const [stdin, setStdin] = useState("");
   const [languageMode, setLangMode] = useState("python");
-  const [language, setLang] = useState("python");
+  const [language, setLang] = useState("python3");
   const [versionIndex, setVerIndex] = useState(3);
   const [theme, setTheme] = useState("chrome");
 
@@ -126,7 +126,11 @@ const CodeEditor = ({ testCases }) => {
 
   return (
     <>
-      <Menu mode="horizontal" style={{ margin: "10px" }}>
+      <Menu
+        mode="horizontal"
+        style={{ margin: "10px" }}
+        defaultSelectedKeys={["python3"]}
+      >
         <Menu.Item
           onClick={() => {
             setIdeSettings("python", "python3", 3);
