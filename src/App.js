@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
-import { Redirect, Route, Switch } from "react-router";
+import { Navigate, Routes, Route } from "react-router-dom";
 
-import ConditionalRoute from "./app/common/ConditionalRoute";
+import conditionalRoute from "./app/common/ConditionalRoute";
 import {
   selectEmailVerified,
   selectIsAutheticated,
@@ -35,58 +35,44 @@ function App() {
     <>
       <ErrorBoundary>
         <Suspense fallback={<LoadingSpinner />}>
-          <Switch>
-            <ConditionalRoute
-              component={Login}
-              path={"/login"}
-              exact
-              condition={!isAuthenticated}
-              redirectUrl="/home"
-            />
+          <Routes>
+            {conditionalRoute(Login, "/home", !isAuthenticated, "/login")}
 
-            <ConditionalRoute
-              path={"/home"}
-              component={Home}
-              condition={isAuthenticated && isEmailVerified && hasProfileData}
-              redirectUrl={
-                !isAuthenticated
-                  ? "/login"
-                  : !isEmailVerified
-                  ? "/registration/verifyEmail"
-                  : "/registration/profile"
-              }
-            />
+            {conditionalRoute(
+              Home,
+              !isAuthenticated
+                ? "/login"
+                : !isEmailVerified
+                ? "/registration/verifyEmail"
+                : "/registration/profile",
+              isAuthenticated && isEmailVerified && hasProfileData,
+              "/home/*"
+            )}
 
-            <ConditionalRoute
-              path={"/registration/register"}
-              component={Register}
-              condition={!isAuthenticated}
-              exact
-              redirectUrl={"/home"}
-            />
+            {conditionalRoute(
+              Register,
+              "/home",
+              !isAuthenticated,
+              "/registration/register"
+            )}
 
-            <ConditionalRoute
-              path={"/registration/verifyEmail"}
-              component={VerifyEmail}
-              condition={isAuthenticated && !isEmailVerified}
-              exact
-              redirectUrl={isEmailVerified ? "/home" : "/login"}
-            />
+            {conditionalRoute(
+              VerifyEmail,
+              isEmailVerified ? "/home" : "/login",
+              isAuthenticated && !isEmailVerified,
+              "/registration/verifyEmail"
+            )}
 
-            <ConditionalRoute
-              path={"/registration/profile"}
-              component={Profile}
-              condition={isAuthenticated && isEmailVerified && !hasProfileData}
-              exact
-              redirectUrl={"/home"}
-            />
+            {conditionalRoute(
+              Profile,
+              "/home",
+              isAuthenticated && isEmailVerified && !hasProfileData,
+              "/registration/profile"
+            )}
 
-            <Route path="/resetPassword">
-              <ResetPassword />
-            </Route>
-
-            <Redirect to={"/home"} />
-          </Switch>
+            <Route path="/resetPassword" element={<ResetPassword />}></Route>
+            <Route path="/" element={<Navigate to="/home" />} />
+          </Routes>
         </Suspense>
       </ErrorBoundary>
     </>

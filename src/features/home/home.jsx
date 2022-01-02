@@ -1,6 +1,6 @@
 import { Button, Layout, Typography } from "antd";
 import React, { lazy, Suspense } from "react";
-import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { Link, Routes, Route, Navigate } from "react-router-dom";
 
 import SideBar from "../nav/SideBar";
 import TopAppBar from "../nav/TopAppBar";
@@ -9,7 +9,6 @@ import { selectDisplayName } from "../auth/authSlice";
 import { useEffect } from "react";
 import { tasksLoaded } from "./homeSlice";
 import { studentTasksListener } from "../../app/firebase/firestoreService";
-import { Redirect } from "react-router";
 
 const OnlineClass = lazy(() => import("../onlineClass/OnlineClass"));
 const ProfileData = lazy(() => import("../Profile/ProfileData"));
@@ -57,32 +56,36 @@ function Home() {
           >
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <Switch>
-                  <Route exact path="/home">
-                    <>
-                      <Typography.Title>Welcome {username}</Typography.Title>
-                    </>
-                  </Route>
-                  <Route exact path="/home/onlineClasses">
-                    <OnlineClass />
-                  </Route>
-                  <Route exact path="/home/profile">
-                    <ProfileData />
-                  </Route>
-                  <Route exact path="/home/ide">
-                    <CodeEditor />
-                  </Route>
-                  <Route exact path="/home/test">
-                    <CodingTasks />
-                  </Route>
-                  <Route path="/home/test/attempt/:title">
-                    <CodeAttempt />
-                  </Route>
-                  <Redirect to="/home" />
-                </Switch>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <>
+                        <Typography.Title>Welcome {username}</Typography.Title>
+                      </>
+                    }
+                  ></Route>
+                  <Route
+                    path="/onlineClasses"
+                    element={<OnlineClass />}
+                  ></Route>
+                  <Route path="/profile" element={<ProfileData />}></Route>
+                  <Route path="/ide" element={<CodeEditor />}></Route>
+                  <Route path="/test" element={<CodingTasks />}></Route>
+                  <Route
+                    path="/test/attempt/:title"
+                    element={<CodeAttempt />}
+                  ></Route>
+                  <Route path="/*" element={<Navigate to="/home" />}></Route>
+                </Routes>
               </Suspense>
             </ErrorBoundary>
           </Content>
+          <Footer
+            style={{ textAlign: "center", height: "20px", padding: "0px" }}
+          >
+            Nova ©2021 Created by Abhinav Reddy
+          </Footer>
         </Layout>
       </Layout>
     </>

@@ -1,18 +1,16 @@
-/* eslint-disable react/prop-types */
 import React from "react";
-import { Redirect, Route } from "react-router";
+import { Navigate, Route } from "react-router-dom";
 
-function ConditionalRoute({
-  component: Component,
-  redirectUrl,
-  condition,
-  ...rest
-}) {
+function conditionalRoute(Component, redirectUrl, condition, path) {
   return (
-    <Route {...rest} redirectUrl>
-      {!condition ? <Redirect to={redirectUrl} /> : <Component {...rest} />}
-    </Route>
+    <>
+      {!condition ? (
+        <Route path={path} element={<Navigate to={redirectUrl} />}></Route>
+      ) : (
+        <Route path={path} element={<Component />}></Route>
+      )}
+    </>
   );
 }
 
-export default ConditionalRoute;
+export default conditionalRoute;
