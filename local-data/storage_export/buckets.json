@@ -2,6 +2,9 @@
   "buckets": [
     {
       "id": "default-bucket"
+    },
+    {
+      "id": "nova-4bfb4.appspot.com"
     }
   ]
 }

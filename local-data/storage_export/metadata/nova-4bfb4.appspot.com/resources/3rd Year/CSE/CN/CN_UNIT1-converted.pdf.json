@@ -1,0 +1,19 @@
+{
+  "name": "resources/3rd Year/CSE/CN/CN_UNIT1-converted.pdf",
+  "bucket": "nova-4bfb4.appspot.com",
+  "contentType": "application/pdf",
+  "metageneration": 1,
+  "generation": 1641802884915,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "708b7300-a11e-4beb-b0c0-217902c3e3d7"
+  ],
+  "timeCreated": "2022-01-10T08:21:24.914Z",
+  "updated": "2022-01-10T08:21:24.921Z",
+  "size": 766530,
+  "md5Hash": "K338RuEtNt5JIbX+h4JY9A==",
+  "crc32c": "90021150"
+}

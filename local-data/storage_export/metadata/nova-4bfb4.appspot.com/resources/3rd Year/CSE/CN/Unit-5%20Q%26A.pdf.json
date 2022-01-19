@@ -1,0 +1,19 @@
+{
+  "name": "resources/3rd Year/CSE/CN/Unit-5 Q&A.pdf",
+  "bucket": "nova-4bfb4.appspot.com",
+  "contentType": "application/pdf",
+  "metageneration": 1,
+  "generation": 1641802862708,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "c521da4a-a397-4d38-8b51-0f70e02e4b32"
+  ],
+  "timeCreated": "2022-01-10T08:21:02.707Z",
+  "updated": "2022-01-10T08:21:02.716Z",
+  "size": 1025610,
+  "md5Hash": "1Gtm9enf2Ai/bqP1UyOVow==",
+  "crc32c": "1716570459"
+}

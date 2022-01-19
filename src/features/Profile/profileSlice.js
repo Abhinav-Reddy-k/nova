@@ -39,7 +39,6 @@ export default profileSlice.reducer;
 export function getProfileData() {
   return function (dispatch) {
     authStateListener(async (userInfo) => {
-      console.log(`profile ${userInfo}`);
       if (userInfo) {
         try {
           dispatch(showSpinner());

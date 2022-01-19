@@ -20,7 +20,7 @@ import {
   SiCplusplus,
   SiCsharp,
   SiJava,
-  SiNodeDotJs,
+  SiNodedotjs,
   SiDart,
   SiSwift,
   SiKotlin,
@@ -172,7 +172,7 @@ const CodeEditor = ({ testCases }) => {
           onClick={() => {
             setIdeSettings("javascript", "nodejs", 3);
           }}
-          icon={<SiNodeDotJs />}
+          icon={<SiNodedotjs />}
           key="nodejs"
         >
           Nodejs

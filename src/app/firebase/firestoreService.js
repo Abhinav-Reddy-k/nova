@@ -5,6 +5,27 @@ if (location.hostname === "localhost") {
   db.useEmulator("localhost", 8080);
 }
 
+
+export const studentProfileConverter = {
+  toFirestore: function (studentProfile) {
+    studentProfile.rollno = studentProfile.rollno.toLowerCase();
+    studentProfile.section = studentProfile.section.toUpperCase();
+    return studentProfile;
+  },
+  fromFirestore: function (snapshot, options) {
+    const studentProfile = snapshot.data(options);
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const from_year = studentProfile.from_year;
+    const academic_year = month <= 4 ? year - from_year : year - from_year + 1;
+    return {
+      ...studentProfile,
+      academic_year,
+    };
+  },
+};
+
 export const getUserProfile = async (uid) => {
   const studentPrfileDoc = db.collection("students").doc(uid);
   try {
@@ -33,32 +54,11 @@ export const deleteStudentProfileData = async (uid) => {
   }
 };
 
-export const studentProfileConverter = {
-  toFirestore: function (studentProfile) {
-    studentProfile.rollno = studentProfile.rollno.toLowerCase();
-    studentProfile.section = studentProfile.section.toUpperCase();
-    const attendance = `/attendance/${studentProfile.uid}`;
-    return {
-      ...studentProfile,
-      attendance,
-    };
-  },
-  fromFirestore: function (snapshot, options) {
-    const studentProfile = snapshot.data(options);
-    const date = new Date();
-    const year = date.getFullYear();
-    const from_year = studentProfile.from_year;
-    return {
-      ...studentProfile,
-      academic_year: year - from_year,
-    };
-  },
-};
 
-export function setStudentProfileData(student) {
+export function setStudentProfileData(student, id) {
   return db
     .collection("students")
-    .doc(student.uid)
+    .doc(id)
     .withConverter(studentProfileConverter)
     .set(student, { merge: true });
 }
