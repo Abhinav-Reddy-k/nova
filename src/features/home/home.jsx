@@ -1,32 +1,22 @@
 import { Layout } from "antd";
-import React, { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import SideBar from "../nav/SideBar";
 import TopAppBar from "../nav/TopAppBar";
-import { useDispatch, useSelector } from "react-redux";
-import { selectDisplayName } from "../auth/authSlice";
-import { useEffect } from "react";
-import { tasksLoaded } from "./homeSlice";
-import { studentTasksListener } from "../../app/firebase/firestoreService";
 
 import LoadingSpinner from "../../app/common/LoadingSpinner";
 import ErrorBoundary from "../../app/common/ErrorBoundary";
+import { useSelector } from "react-redux";
+import { selectRequestedUrl } from "./homeSlice";
 
 function Home() {
-  const { Header, Sider, Content, Footer } = Layout;
-  const username = useSelector(selectDisplayName);
-  const dispatch = useDispatch();
+  const { Header, Content, Footer } = Layout;
+  const requestedUrl = useSelector(selectRequestedUrl);
+  const navigate = useNavigate();
   useEffect(() => {
-    studentTasksListener(1, "cse", "A").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        let tasks = [];
-        let docData = doc.data();
-        tasks.push({ ...docData, time: docData.time.toDate().toString() });
-        dispatch(tasksLoaded(tasks));
-      });
-    });
-  }, [username]);
+    navigate(`/home/${requestedUrl}`);
+  }, []);
 
   return (
     <>

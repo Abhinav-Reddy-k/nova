@@ -28,6 +28,7 @@ const ProfileData = lazy(() => import("./features/Profile/ProfileData"));
 const CodeEditor = lazy(() => import("./features/ide/CodeEditor"));
 const CodingTasks = lazy(() => import("./features/ide/CodingTasks"));
 const CodeAttempt = lazy(() => import("./features/ide/CodeAttempt"));
+const Resources = lazy(() => import("./features/resources/Resources"));
 
 function App() {
   const isAuthenticated = useSelector(selectIsAutheticated);
@@ -80,6 +81,8 @@ function App() {
                   path="test/attempt/:title"
                   element={<CodeAttempt />}
                 ></Route>
+                <Route path="resources" element={<Resources />} />
+
                 <Route path="*" element={<Navigate to="/home" />}></Route>
               </Route>
             </Route>
@@ -112,7 +115,7 @@ function App() {
             </Route>
 
             <Route path="/resetPassword" element={<ResetPassword />}></Route>
-            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/*" element={<Navigate to="/home" />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>

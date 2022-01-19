@@ -1,10 +1,6 @@
 import firebase from "./firebaseConfig";
 
 const db = firebase.firestore();
-if (location.hostname === "localhost") {
-  db.useEmulator("localhost", 8080);
-}
-
 
 export const studentProfileConverter = {
   toFirestore: function (studentProfile) {
@@ -53,7 +49,6 @@ export const deleteStudentProfileData = async (uid) => {
     throw error;
   }
 };
-
 
 export function setStudentProfileData(student, id) {
   return db
