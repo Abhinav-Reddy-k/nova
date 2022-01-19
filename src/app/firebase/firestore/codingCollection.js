@@ -9,3 +9,7 @@ export const myCodingTestListener = (branch, section, year) => {
     .where("year", "==", year_map[year])
     .where("isStarted", "==", true);
 };
+
+export const myCodeTestDocListener = (id) => {
+  return db.collection("coding tests").doc(id);
+};

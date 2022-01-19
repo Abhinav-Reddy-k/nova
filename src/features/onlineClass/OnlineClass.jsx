@@ -1,34 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Card } from "antd";
+import React from "react";
+import { connect } from "react-redux";
 import { myClassesListener } from "../../app/firebase/firestore/classesCollection";
 import { selectProfileData } from "../Profile/profileSlice";
 import { myClassesLoaded } from "./classesSlice";
 import ClassesCardGrid from "./ClassesCardGrid";
+import useCollectionListener from "../../app/hooks/useCollectionListener";
 
-const OnlineClass = () => {
-  const profileData = useSelector(selectProfileData);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const unsubscribe = myClassesListener(
-      profileData.branch,
-      profileData.section,
-      profileData.academic_year
-    ).onSnapshot((querySnapshot) => {
-      let myClasses = [];
-      querySnapshot.forEach((doc) => {
-        let docData = doc.data();
-        myClasses.push({
-          ...docData,
-          startTime: docData.startTime.toDate().toString(),
-        });
-      });
-      dispatch(myClassesLoaded(myClasses));
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+const OnlineClass = ({ profileData, myClassesLoaded }) => {
+  useCollectionListener({
+    query: () =>
+      myClassesListener(
+        profileData.branch,
+        profileData.section,
+        profileData.academic_year
+      ),
+    data: (myClasses) => myClassesLoaded(myClasses),
+    deps: [],
+    stopListener: true,
+    shouldExecuteQuery: true,
+  });
   return (
     <>
       <ClassesCardGrid />
@@ -36,4 +26,12 @@ const OnlineClass = () => {
   );
 };
 
-export default OnlineClass;
+const mapStateToProps = (state) => ({
+  profileData: selectProfileData(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  myClassesLoaded: (myClasses) => dispatch(myClassesLoaded(myClasses)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(OnlineClass);

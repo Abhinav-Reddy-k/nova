@@ -1,33 +1,24 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
 import { myCodingTestListener } from "../../app/firebase/firestore/codingCollection";
+import useFirestoreCollection from "../../app/hooks/useCollectionListener";
 import { selectProfileData } from "../Profile/profileSlice";
 import { myCodingTaskesLoaded } from "./codeTasksSlice";
 import CodeTestsGrid from "./CodeTestsGrid";
 
-const CodingTasks = () => {
-  const profileData = useSelector(selectProfileData);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const unsubscribe = myCodingTestListener(
-      profileData.branch,
-      profileData.section,
-      profileData.academic_year
-    ).onSnapshot((querySnapshot) => {
-      let myCodingTests = [];
-      querySnapshot.forEach((doc) => {
-        let docData = doc.data();
-        myCodingTests.push({
-          ...docData,
-          startTime: docData.startTime.toDate().toString(),
-        });
-      });
-      dispatch(myCodingTaskesLoaded(myCodingTests));
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+const CodingTasks = ({ profileData, myCodingTaskesLoaded }) => {
+  useFirestoreCollection({
+    query: () =>
+      myCodingTestListener(
+        profileData.branch,
+        profileData.section,
+        profileData.academic_year
+      ),
+    data: (codingTasks) => myCodingTaskesLoaded(codingTasks),
+    deps: [],
+    stopListener: true,
+    shouldExecuteQuery: true,
+  });
   return (
     <div>
       <CodeTestsGrid />
@@ -35,4 +26,13 @@ const CodingTasks = () => {
   );
 };
 
-export default CodingTasks;
+const mapStateToProps = (state) => ({
+  profileData: selectProfileData(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  myCodingTaskesLoaded: (myCodingTests) =>
+    dispatch(myCodingTaskesLoaded(myCodingTests)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CodingTasks);
