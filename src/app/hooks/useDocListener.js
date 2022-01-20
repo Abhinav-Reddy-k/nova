@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { dataFromSnapshot } from "../firebase/firestoreService";
 import { message } from "antd";
 
-export default function useFirestoreCollection({
+export default function useFirestoreDoc({
   query,
   data,
   deps,
@@ -15,7 +15,11 @@ export default function useFirestoreCollection({
     if (shouldExecuteQuery) {
       unsubscribe = query().onSnapshot(
         (snapshot) => {
-          data(dataFromSnapshot(snapshot));
+          if (snapshot.exists) {
+            data(dataFromSnapshot(snapshot));
+          } else {
+            query().set({});
+          }
         },
         (error) => message.error(error.message)
       );

@@ -13,3 +13,29 @@ export const myCodingTestListener = (branch, section, year) => {
 export const myCodeTestDocListener = (id) => {
   return db.collection("coding tests").doc(id);
 };
+
+export const myCodeTestProgressListener = (testId, uid) => {
+  return db
+    .collection("coding tests")
+    .doc(testId)
+    .collection("progress")
+    .doc(uid);
+};
+
+export const updateCodeTestProgress = (testId, uid, data) => {
+  return db
+    .collection("coding tests")
+    .doc(testId)
+    .collection("progress")
+    .doc(uid)
+    .update(data);
+};
+
+export const setCodeTestProgress = (testId, uid, data) => {
+  return db
+    .collection("coding tests")
+    .doc(testId)
+    .collection("progress")
+    .doc(uid)
+    .set(data, { merge: true });
+};

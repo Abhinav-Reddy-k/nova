@@ -8,13 +8,16 @@ import {
   Skeleton,
   Modal,
   Progress,
+  Spin,
 } from "antd";
 import { Button } from "antd/lib/radio";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AceEditor from "react-ace-builds";
 import { FaPython } from "react-icons/fa";
 import { DiSqllite } from "react-icons/di";
+import Confetti from "react-confetti";
+import useWindowSize from "react-use/lib/useWindowSize";
 
 import {
   SiCplusplus,
@@ -35,10 +38,17 @@ import "ace-builds/src-noconflict/mode-csharp";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-chrome";
 import "ace-builds/src-noconflict/theme-clouds";
-import "ace-builds/src-noconflict/theme-clouds_midnight";
+import "ace-builds/src-noconflict/theme-xcode";
 import "ace-builds/src-noconflict/theme-cobalt";
+import { setCodeTestProgress } from "../../app/firebase/firestore/codingCollection";
+import { useSelector } from "react-redux";
+import { selectUid } from "../auth/authSlice";
+import { selectProfileData } from "../Profile/profileSlice";
+import { selectCurrentTaskProgress } from "./codeTasksSlice";
+import { getTimeStamp } from "../../app/firebase/firestoreService";
 
-const CodeEditor = ({ testCases }) => {
+const CodeEditor = ({ testCases, taskId }) => {
+  const currentProgress = useSelector(selectCurrentTaskProgress);
   const [code, setCode] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [stdin, setStdin] = useState("");
@@ -59,6 +69,35 @@ const CodeEditor = ({ testCases }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [score, setScore] = useState(0);
   const [total, setTotal] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoadingProgress] = useState(false);
+  const uid = useSelector(selectUid);
+  const profileData = useSelector(selectProfileData);
+
+  const codeRef = useRef();
+
+  useEffect(() => {
+    if (taskId) {
+      codeRef.current = code;
+    }
+  }, [code]);
+
+  useEffect(() => {
+    if (taskId) {
+      setCode(currentProgress.saved);
+    }
+  }, [currentProgress]);
+
+  useEffect(() => {
+    return () => {
+      if (taskId) {
+        setCodeTestProgress(taskId, uid, {
+          ...profileData,
+          saved: codeRef.current,
+        });
+      }
+    };
+  }, []);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -106,26 +145,53 @@ const CodeEditor = ({ testCases }) => {
 
   const evaluateCode = async () => {
     showModal();
+    setLoadingProgress(true);
     let score = 0;
+    let progress = 0;
     setTotal(testCases.length);
+    let requests = [];
+    let outputs = [];
     for (let testcase of testCases) {
       let input = testcase.input;
       let output = testcase.output;
-      console.log(input);
-      console.log(output);
-      let data = await getCodeOutput(code, language, versionIndex, input);
-      console.log(data.output);
-      if (data.output.trim() == output.trim()) {
-        console.log("correct");
+      requests.push(getCodeOutput(code, language, versionIndex, input));
+      outputs.push(output);
+    }
+    let responses = await Promise.all(requests);
+    for (let i = 0; i < responses.length; i++) {
+      let response = responses[i];
+      if (response.output.trim() == outputs[i].trim()) {
         score++;
         setScore(score);
       }
+      progress++;
+      setProgress(progress);
     }
-    console.log(score, total);
+    if (100 * (score / testCases.length) >= currentProgress.score) {
+      setCodeTestProgress(taskId, uid, {
+        codeSubmitted: code,
+        score: 100 * (score / testCases.length),
+        saved: code,
+        submittedAt: getTimeStamp(),
+      });
+    }
+    setLoadingProgress(false);
   };
 
+  const { width, height } = useWindowSize();
   return (
     <>
+      {score === total && score > 0 && (
+        <Confetti
+          recycle={false}
+          tweenDuration={7000}
+          width={width}
+          height={height}
+          numberOfPieces={600}
+          run={score === total && score > 0}
+        />
+      )}
+
       <Menu
         mode="horizontal"
         style={{ margin: "10px" }}
@@ -244,11 +310,21 @@ const CodeEditor = ({ testCases }) => {
           <Select.Option value="chrome">Chrome</Select.Option>
           <Select.Option value="clouds">Clouds</Select.Option>
           <Select.Option value="cobalt">Cobalt</Select.Option>
+          <Select.Option value="xcode">Xcode</Select.Option>
         </Select>
-        {testCases && (
-          <Button style={{ margin: "10px" }} onClick={evaluateCode}>
-            Evaluate
-          </Button>
+        {taskId && (
+          <>
+            <Button style={{ margin: "10px" }} onClick={evaluateCode}>
+              Evaluate
+            </Button>
+            <pre>Proposed Grade : {currentProgress.score}</pre>
+            <Button
+              style={{ margin: "10px" }}
+              onClick={() => setCode(currentProgress.codeSubmitted)}
+            >
+              Get my code submitted code
+            </Button>
+          </>
         )}
       </Row>
 
@@ -275,12 +351,32 @@ const CodeEditor = ({ testCases }) => {
           />
         </Col>
         <Modal
-          title="Evaluating..."
+          title={
+            <p>
+              Evaluating... <Spin spinning={loading} />
+            </p>
+          }
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <Progress type="circle" percent={Math.floor((score / total) * 100)} />
+          <Row>
+            <Col span={12}>
+              <Progress
+                type="circle"
+                strokeColor="red"
+                percent={100 * (progress / total)}
+                success={{
+                  percent: 100 * (score / total),
+                  strokeColor: "green",
+                }}
+              />
+            </Col>
+            <Col>
+              <pre>{`score: ${score}/${total}`}</pre>
+              <pre>{`failed testcases: ${total - score}`}</pre>
+            </Col>
+          </Row>
         </Modal>
         <Col>
           <Card

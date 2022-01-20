@@ -2,6 +2,10 @@ import firebase from "./firebaseConfig";
 
 const db = firebase.firestore();
 
+export const getTimeStamp = () => {
+  return firebase.firestore.Timestamp.now();
+};
+
 export const dataFromSnapshot = (snapshot) => {
   const data = snapshot.data();
   data.id = snapshot.id;
