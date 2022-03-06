@@ -15,7 +15,9 @@ function Home() {
   const requestedUrl = useSelector(selectRequestedUrl);
   const navigate = useNavigate();
   useEffect(() => {
-    navigate(`/home/${requestedUrl}`);
+    if (requestedUrl.startsWith("/home")) {
+      navigate(requestedUrl);
+    }
   }, []);
 
   return (

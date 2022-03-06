@@ -12,9 +12,7 @@ import useDocListener from "../../app/hooks/useDocListener";
 import {
   myCodeTestDocListener,
   myCodeTestProgressListener,
-  setCodeTestProgress,
 } from "../../app/firebase/firestore/codingCollection";
-import { selectProfileData } from "../Profile/profileSlice";
 import { selectUid } from "../auth/authSlice";
 
 const CodeAttempt = ({
@@ -23,31 +21,31 @@ const CodeAttempt = ({
   uid,
   currentTaskProgressLoaded,
 }) => {
-  const params = useParams();
+  const { id } = useParams();
   useDocListener({
-    query: () => myCodeTestDocListener(params.title),
+    query: () => myCodeTestDocListener(id),
     data: (codingTasks) => myCodingTaskesLoaded([codingTasks]),
     deps: [],
     stopListener: true,
-    shouldExecuteQuery: !getCurrentTask(params.title),
+    shouldExecuteQuery: !getCurrentTask(id),
   });
 
   useDocListener({
-    query: () => myCodeTestProgressListener(params.title, uid),
+    query: () => myCodeTestProgressListener(id, uid),
     data: (codingProgress) => currentTaskProgressLoaded(codingProgress),
     deps: [],
     stopListener: true,
     shouldExecuteQuery: true,
   });
 
-  const currentTask = getCurrentTask(params.title);
+  const currentTask = getCurrentTask(id);
   const testCases = currentTask?.testCases;
   return (
     <>
       <Card style={{ margin: "10px" }}>
         <pre>{currentTask?.description.replace(/\\n/g, "\n")}</pre>
       </Card>
-      <CodeEditor testCases={testCases} taskId={params.title} />
+      <CodeEditor testCases={testCases} taskId={id} />
     </>
   );
 };

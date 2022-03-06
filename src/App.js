@@ -78,7 +78,7 @@ function App() {
                 <Route path="ide" element={<CodeEditor />}></Route>
                 <Route path="test" element={<CodingTasks />}></Route>
                 <Route
-                  path="test/attempt/:title"
+                  path="test/attempt/:id"
                   element={<CodeAttempt />}
                 ></Route>
                 <Route path="resources" element={<Resources />} />

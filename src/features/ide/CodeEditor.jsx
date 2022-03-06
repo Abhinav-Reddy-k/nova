@@ -107,12 +107,14 @@ const CodeEditor = ({ testCases, taskId }) => {
     setIsModalVisible(false);
     setScore(0);
     setTotal(0);
+    setProgress(0);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
     setScore(0);
     setTotal(0);
+    setProgress(0);
   };
   const setIdeSettings = (mode, language, versionIndex) => {
     setLang(language);
@@ -128,12 +130,9 @@ const CodeEditor = ({ testCases, taskId }) => {
   };
 
   const getCodeOutput = async (code, language, versionIndex, stdin) => {
-    const { data } = await axios("https://api.jdoodle.com/v1/execute", {
+    const { data } = await axios("https://jdoodle-api.herokuapp.com/", {
       method: "POST",
       data: {
-        clientId: "504d3f8e7aa550a36678ac75c6daf92b",
-        clientSecret:
-          "9b3c4230355b9576fe602ff7a5286f9e0b542348a01771ff3d5318d6ac53cd16",
         script: code,
         language,
         versionIndex,
@@ -173,6 +172,9 @@ const CodeEditor = ({ testCases, taskId }) => {
         score: 100 * (score / testCases.length),
         saved: code,
         submittedAt: getTimeStamp(),
+        language,
+        ...profileData,
+        languageMode,
       });
     }
     setLoadingProgress(false);
@@ -337,7 +339,7 @@ const CodeEditor = ({ testCases, taskId }) => {
             theme={theme}
             name="blah2"
             onChange={onChange}
-            fontSize={20}
+            fontSize={15}
             showPrintMargin={true}
             showGutter={true}
             highlightActiveLine={true}

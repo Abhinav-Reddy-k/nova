@@ -1,0 +1,19 @@
+{
+  "name": "resources/4th Year/abhinav.jpg",
+  "bucket": "nova-4bfb4.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1643044455464,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "2fc859db-da6f-4bb9-afdd-2b0b62943d40"
+  ],
+  "timeCreated": "2022-01-24T17:14:15.463Z",
+  "updated": "2022-01-24T17:14:15.477Z",
+  "size": 1110506,
+  "md5Hash": "6H0fhpoqAAUD55Ntl0zR1A==",
+  "crc32c": "4169693909"
+}

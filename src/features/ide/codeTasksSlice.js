@@ -2,7 +2,6 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const initialState = {
   current: [],
-  progress: [],
   currentTaskProgress: {},
 };
 
@@ -13,20 +12,11 @@ const codingTasksSlice = createSlice({
     myCodingTaskesLoaded: (codingTasks, action) => {
       codingTasks.current = action.payload;
     },
-    updateCodeTestProgress: (codingTasks, action) => {
-      const task = codingTasks.progress.find(
-        (task) => task.taskId === action.payload.taskId
-      );
-      if (task) {
-        codingTasks.progress = codingTasks.progress.map((task) =>
-          task.taskId === action.payload.taskId ? action.payload : task
-        );
-      } else {
-        codingTasks.progress.push(action.payload);
-      }
-    },
     currentTaskProgressLoaded: (codingTasks, action) => {
       codingTasks.currentTaskProgress = action.payload;
+      if (!codingTasks.currentTaskProgress.score) {
+        codingTasks.currentTaskProgress.score = 0;
+      }
     },
   },
 });

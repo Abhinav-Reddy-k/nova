@@ -1,0 +1,19 @@
+{
+  "name": "resources/3rd Year/CSE/SE/abhinav.jpg",
+  "bucket": "nova-4bfb4.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1643117397773,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "eb145d06-14f1-4ecd-aeef-7b9e708c4a65"
+  ],
+  "timeCreated": "2022-01-25T13:29:57.772Z",
+  "updated": "2022-01-25T13:29:57.788Z",
+  "size": 1110506,
+  "md5Hash": "6H0fhpoqAAUD55Ntl0zR1A==",
+  "crc32c": "4169693909"
+}

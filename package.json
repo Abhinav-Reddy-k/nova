@@ -27,7 +27,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "firebase deploy --only firestore,hosting:novaonline",
-    "firebase-start": "firebase emulators:start --export-on-exit=local-data --import=local-data"
+    "firebase-start": "firebase emulators:start --only firestore,auth,storage --export-on-exit=local-data --import=local-data",
+    "emulator-start": "firebase emulators:start --export-on-exit=local-data --import=local-data"
   },
   "eslintConfig": {
     "extends": "react-app"
